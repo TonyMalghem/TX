@@ -1,10 +1,6 @@
 #include <string>
-#include <iterator>
 #include <iostream>
 #include <cstdlib>
-#include <stdexcept>
-#include <sstream>
-#include <vector>
 
 using namespace std;
 
