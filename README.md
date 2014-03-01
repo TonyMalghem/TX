@@ -1,4 +1,6 @@
 TX
 ==
 
-Projet de cryptographie : démonstrateurs pédagogiques pour les chiffrements RC4, RSA et AES
+Cryptographic project : realization of educational demonstrators for RSA, AES and RC4 ciphers
+
+Uses C++11
