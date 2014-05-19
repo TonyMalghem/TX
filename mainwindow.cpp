@@ -298,9 +298,6 @@ void MainWindow::rc4_cipher(const std::string plaintext, const std::string key)
     ui->textBrowser_result3->setText(enc3);
     ui->textBrowser_result4->setText(enc4);
 
-    aff.clear();
-    aff = QString::fromStdString(encoded_message);
-
     ui->textBrowser_ciphered->setText(aff);
 }
 
