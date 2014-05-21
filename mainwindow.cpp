@@ -1,16 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "rc4.h"
 
 
 /*****************************************************************/
 /*                               TODO                            */
 /*****************************************************************/
-/* - ajout mode saisie hexa/string                               */
 /* - aes                                                         */
 /* - rsa                                                         */
 /* - clean code                                                  */
 /*****************************************************************/
 
+rc4 rc4_obj("","","");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +32,102 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::afficheEncoded()
+{
+    std::string keystream_hex = rc4_obj.getKeystream();
+    std::string encoded_message_hex;
+    QString aff = QString::fromStdString(keystream_hex);
+
+    QString key0 = aff[0] + '\0';
+    key0.append(aff[1]);
+    QString key1 = aff[2] + '\0';
+    key1.append(aff[3]);
+    QString key2 = aff[4] + '\0';
+    key2.append(aff[5]);
+    QString key3 = aff[6] + '\0';
+    key3.append(aff[7]);
+    QString key4 = aff[8] + '\0';
+    key4.append(aff[9]);
+
+    aff.clear();
+    if(ui->radioButton_string->isChecked())
+        encoded_message_hex = rc4_obj.string_to_hex(rc4_obj.getEncoded());
+    else
+        encoded_message_hex = rc4_obj.string_to_hex(rc4_obj.getEncoded());
+
+    aff = QString::fromStdString(encoded_message_hex);
+
+    QString enc0 = aff[0] + '\0';
+    enc0.append(aff[1]);
+    QString enc1 = aff[2] + '\0';
+    enc1.append(aff[3]);
+    QString enc2 = aff[4] + '\0';
+    enc2.append(aff[5]);
+    QString enc3 = aff[6] + '\0';
+    enc3.append(aff[7]);
+    QString enc4 = aff[8] + '\0';
+    enc4.append(aff[9]);
+
+    ui->textBrowser_keystream0->setText(key0);
+    ui->textBrowser_keystream1->setText(key1);
+    ui->textBrowser_keystream2->setText(key2);
+    ui->textBrowser_keystream3->setText(key3);
+    ui->textBrowser_keystream4->setText(key4);
+
+    ui->textBrowser_result0->setText(enc0);
+    ui->textBrowser_result1->setText(enc1);
+    ui->textBrowser_result2->setText(enc2);
+    ui->textBrowser_result3->setText(enc3);
+    ui->textBrowser_result4->setText(enc4);
+
+    ui->textBrowser_ciphered->setText(aff);
+}
+
+void MainWindow::afficheDecoded()
+{
+    //setup for displaying the results
+    QString aff = QString::fromStdString(rc4_obj.getKeystream());
+
+    QString key0 = aff[0] + '\0';
+    key0.append(aff[1]);
+    QString key1 = aff[2] + '\0';
+    key1.append(aff[3]);
+    QString key2 = aff[4] + '\0';
+    key2.append(aff[5]);
+    QString key3 = aff[6] + '\0';
+    key3.append(aff[7]);
+    QString key4 = aff[8] + '\0';
+    key4.append(aff[9]);
+
+    aff.clear();
+    aff = QString::fromStdString(rc4_obj.string_to_hex(rc4_obj.getDecoded()));
+
+    QString enc0 = aff[0] + '\0';
+    enc0.append(aff[1]);
+    QString enc1 = aff[2] + '\0';
+    enc1.append(aff[3]);
+    QString enc2 = aff[4] + '\0';
+    enc2.append(aff[5]);
+    QString enc3 = aff[6] + '\0';
+    enc3.append(aff[7]);
+    QString enc4 = aff[8] + '\0';
+    enc4.append(aff[9]);
+
+    ui->textBrowser_keystream0->setText(key0);
+    ui->textBrowser_keystream1->setText(key1);
+    ui->textBrowser_keystream2->setText(key2);
+    ui->textBrowser_keystream3->setText(key3);
+    ui->textBrowser_keystream4->setText(key4);
+
+    ui->textBrowser_result0->setText(enc0);
+    ui->textBrowser_result1->setText(enc1);
+    ui->textBrowser_result2->setText(enc2);
+    ui->textBrowser_result3->setText(enc3);
+    ui->textBrowser_result4->setText(enc4);
+
+    ui->textBrowser_ciphered->setText(aff);
 }
 
 void MainWindow::afficheRC4()
@@ -131,8 +228,9 @@ void MainWindow::cipherButtonClicked()
     input = textCleaner(input);
 
     std::string input_str = input.toStdString();
+
     std::string key_str = key.toStdString();
-    std::string input_hex = string_to_hex(input_str);
+    std::string input_hex = rc4_obj.string_to_hex(input_str);
 
     if(ui->radioButton_string->isChecked())
         input_qhex = QString::fromStdString(input_hex);
@@ -157,7 +255,11 @@ void MainWindow::cipherButtonClicked()
     ui->textBrowser_input3->setText(inp3);
     ui->textBrowser_input4->setText(inp4);
 
-    rc4_cipher(input_str,key_str);
+    if(ui->radioButton_hexa->isChecked())
+        rc4_obj.cipher(input_str,key_str,true);
+    else
+        rc4_obj.cipher(input_str,key_str,false);
+    afficheEncoded();
 }
 
 void MainWindow::decipherButtonClicked()
@@ -170,7 +272,7 @@ void MainWindow::decipherButtonClicked()
 
     std::string input_str = input.toStdString();
     std::string key_str = key.toStdString();
-    std::string input_hex = string_to_hex(input_str);
+    std::string input_hex = rc4_obj.string_to_hex(input_str);
 
     input = QString::fromStdString(input_str);
 
@@ -197,7 +299,8 @@ void MainWindow::decipherButtonClicked()
     ui->textBrowser_input3->setText(inp3);
     ui->textBrowser_input4->setText(inp4);
 
-    rc4_decipher(input_str,key_str);
+    rc4_obj.decipher(input_str,key_str);
+    afficheDecoded();
 }
 
 QString MainWindow::textCleaner(const QString TextToClean)
@@ -244,220 +347,3 @@ QString MainWindow::removeAccents(const QString s)
         }
         return output;
  }
-
-void MainWindow::rc4_cipher(const std::string plaintext, const std::string key)
-{
-    int stream_generated[255]={};
-    int keystream[255]={};
-    std::string keystream_str;
-    std::string keystream_hex;
-    std::string encoded_message;
-    std::string encoded_message_hex;
-
-    //stream and keystream generation
-    stream_generation(key, stream_generated);
-    keystream_generation(stream_generated, keystream);
-
-    //int[] to std::string for the keystream
-
-    for(int i=0;i<255;i++)
-    {
-        keystream_str+=keystream[i];
-    }
-    keystream_hex = string_to_hex(keystream_str);
-
-    for(unsigned int i=0;i<plaintext.length();i++)
-    {
-        encoded_message += plaintext[i] ^  keystream[i];
-    }
-    encoded_message_hex = string_to_hex(encoded_message);
-
-    //setup for displaying the results
-    QString aff = QString::fromStdString(keystream_hex);
-
-    QString key0 = aff[0] + '\0';
-    key0.append(aff[1]);
-    QString key1 = aff[2] + '\0';
-    key1.append(aff[3]);
-    QString key2 = aff[4] + '\0';
-    key2.append(aff[5]);
-    QString key3 = aff[6] + '\0';
-    key3.append(aff[7]);
-    QString key4 = aff[8] + '\0';
-    key4.append(aff[9]);
-
-    aff.clear();
-    aff = QString::fromStdString(encoded_message_hex);
-
-    QString enc0 = aff[0] + '\0';
-    enc0.append(aff[1]);
-    QString enc1 = aff[2] + '\0';
-    enc1.append(aff[3]);
-    QString enc2 = aff[4] + '\0';
-    enc2.append(aff[5]);
-    QString enc3 = aff[6] + '\0';
-    enc3.append(aff[7]);
-    QString enc4 = aff[8] + '\0';
-    enc4.append(aff[9]);
-
-    ui->textBrowser_keystream0->setText(key0);
-    ui->textBrowser_keystream1->setText(key1);
-    ui->textBrowser_keystream2->setText(key2);
-    ui->textBrowser_keystream3->setText(key3);
-    ui->textBrowser_keystream4->setText(key4);
-
-    ui->textBrowser_result0->setText(enc0);
-    ui->textBrowser_result1->setText(enc1);
-    ui->textBrowser_result2->setText(enc2);
-    ui->textBrowser_result3->setText(enc3);
-    ui->textBrowser_result4->setText(enc4);
-
-    ui->textBrowser_ciphered->setText(aff);
-}
-
-void MainWindow::rc4_decipher(const std::string ciphered, const std::string key)
-{
-    int stream_generated[255]={};
-    int keystream[255]={};
-    std::string keystream_str;
-    std::string keystream_hex;
-    std::string decoded_message;
-    std::string decoded_message_hex;
-    std::string ciphered_str = hex_to_string(ciphered);
-
-    //stream and keystream generation
-    stream_generation(key, stream_generated);
-    keystream_generation(stream_generated, keystream);
-
-    //int[] to std::string for the keystream
-
-    for(int i=0;i<255;i++)
-    {
-        keystream_str+=keystream[i];
-    }
-    keystream_hex = string_to_hex(keystream_str);
-
-    for(unsigned int i=0;i<ciphered_str.length();i++)
-    {
-        decoded_message += ciphered_str[i] ^ keystream[i];
-    }
-    decoded_message_hex = string_to_hex(decoded_message);
-
-    //setup for displaying the results
-    QString aff = QString::fromStdString(keystream_hex);
-
-    QString key0 = aff[0] + '\0';
-    key0.append(aff[1]);
-    QString key1 = aff[2] + '\0';
-    key1.append(aff[3]);
-    QString key2 = aff[4] + '\0';
-    key2.append(aff[5]);
-    QString key3 = aff[6] + '\0';
-    key3.append(aff[7]);
-    QString key4 = aff[8] + '\0';
-    key4.append(aff[9]);
-
-    aff.clear();
-    aff = QString::fromStdString(decoded_message_hex);
-
-    QString enc0 = aff[0] + '\0';
-    enc0.append(aff[1]);
-    QString enc1 = aff[2] + '\0';
-    enc1.append(aff[3]);
-    QString enc2 = aff[4] + '\0';
-    enc2.append(aff[5]);
-    QString enc3 = aff[6] + '\0';
-    enc3.append(aff[7]);
-    QString enc4 = aff[8] + '\0';
-    enc4.append(aff[9]);
-
-    ui->textBrowser_keystream0->setText(key0);
-    ui->textBrowser_keystream1->setText(key1);
-    ui->textBrowser_keystream2->setText(key2);
-    ui->textBrowser_keystream3->setText(key3);
-    ui->textBrowser_keystream4->setText(key4);
-
-    ui->textBrowser_result0->setText(enc0);
-    ui->textBrowser_result1->setText(enc1);
-    ui->textBrowser_result2->setText(enc2);
-    ui->textBrowser_result3->setText(enc3);
-    ui->textBrowser_result4->setText(enc4);
-
-    ui->textBrowser_ciphered->setText(aff);
-}
-
-void MainWindow::stream_generation(const std::string key, int* Stream)
-{
-    int Swapper=0;
-    int j=0;
-
-    //Initialization of the Stream array
-    for(int i=0;i<=254;i++)
-    {
-        Stream[i]=i;
-    }
-
-    for(int i=0;i<=254;i++)
-    {
-        j = (j + Stream[i] + (key[i%key.length()])) % 255;
-        Swapper = Stream[i];
-        Stream[i] = Stream[j];
-        Stream[j] = Swapper;
-    }
-}
-
-void MainWindow::keystream_generation(int* const stream, int* keystream)
-{
-    int i=0;
-    int j=0;
-    int Swapper=0;
-
-    for(int k=0;k<255;k++)
-    {
-        i=(i+1)%255;
-        j=(j+stream[i])%255;
-        Swapper=stream[i];
-        stream[i]=stream[j];
-        stream[j]=Swapper;
-        keystream[i]=stream[(stream[i]+stream[j])%255];
-    }
-}
-
-std::string MainWindow::string_to_hex(const std::string& input)
-{
-    static const char* const lut = "0123456789ABCDEF";
-    size_t len = input.length();
-
-    std::string output;
-    output.reserve(2 * len);
-    for (size_t i = 0; i < len; ++i)
-    {
-        const unsigned char c = input[i];
-        output.push_back(lut[c >> 4]);
-        output.push_back(lut[c & 15]);
-    }
-    return output;
-}
-
-std::string MainWindow::hex_to_string(const std::string& input)
-{
-    static const char* const lut = "0123456789ABCDEF";
-    size_t len = input.length();
-    if (len & 1) throw std::invalid_argument("odd length");
-
-    std::string output;
-    output.reserve(len / 2);
-    for (size_t i = 0; i < len; i += 2)
-    {
-        char a = input[i];
-        const char* p = std::lower_bound(lut, lut + 16, a);
-        if (*p != a) throw std::invalid_argument("not a hex digit");
-
-        char b = input[i + 1];
-        const char* q = std::lower_bound(lut, lut + 16, b);
-        if (*q != b) throw std::invalid_argument("not a hex digit");
-
-        output.push_back(((p - lut) << 4) | (q - lut));
-    }
-    return output;
-}

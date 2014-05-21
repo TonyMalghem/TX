@@ -28,6 +28,8 @@ public:
     void afficheRSA();
     void afficheDecipher();
     void afficheCipher();
+    void afficheEncoded();
+    void afficheDecoded();
     QString textCleaner(QString const TextToClean);
     void rc4_cipher(const std::string plaintext, const std::string key);
     void rc4_decipher(const std::string ciphered, const std::string key);
