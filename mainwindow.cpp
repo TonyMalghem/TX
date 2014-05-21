@@ -53,6 +53,10 @@ void MainWindow::afficheRC4()
     ui->label_keystreambox->show();
     ui->label_textbox->show();
     ui->label_res->show();
+    ui->radioButton_hexa->show();
+    ui->radioButton_string->show();
+    ui->radioButton_string->setChecked(true);
+    ui->label_inputmode->show();
     this->setWindowTitle("RC4");
 }
 
@@ -72,6 +76,8 @@ void MainWindow::afficheCipher()
     ui->pushButton_decipher->setEnabled(false);
     ui->label_cipher->show();
     ui->label_decipher->hide();
+    ui->radioButton_hexa->setChecked(true);
+    ui->radioButton_string->setCheckable(true);
 }
 
 void MainWindow::afficheDecipher()
@@ -80,6 +86,8 @@ void MainWindow::afficheDecipher()
     ui->pushButton_cipher->setEnabled(false);
     ui->label_cipher->hide();
     ui->label_decipher->show();
+    ui->radioButton_hexa->setChecked(true);
+    ui->radioButton_string->setCheckable(false);
 }
 
 void MainWindow::cipherClicked()
@@ -126,8 +134,10 @@ void MainWindow::cipherButtonClicked()
     std::string key_str = key.toStdString();
     std::string input_hex = string_to_hex(input_str);
 
-    input = QString::fromStdString(input_str);
-    input_qhex = QString::fromStdString(input_hex);
+    if(ui->radioButton_string->isChecked())
+        input_qhex = QString::fromStdString(input_hex);
+    else //ui->radioButton_hex->isChecked()
+        input_qhex = input;
 
     QString inp0 = input_qhex[0] + '\0';
     inp0.append(input_qhex[1]);
@@ -163,7 +173,11 @@ void MainWindow::decipherButtonClicked()
     std::string input_hex = string_to_hex(input_str);
 
     input = QString::fromStdString(input_str);
-    input_qhex = QString::fromStdString(input_hex);
+
+    if(ui->radioButton_string->isChecked())
+        input_qhex = QString::fromStdString(input_hex);
+    else //ui->radioButton_hex->isChecked()
+        input_qhex = input;
 
     QString inp0 = input_qhex[0] + '\0';
     inp0.append(input_qhex[1]);
@@ -309,6 +323,7 @@ void MainWindow::rc4_decipher(const std::string ciphered, const std::string key)
     std::string keystream_hex;
     std::string decoded_message;
     std::string decoded_message_hex;
+    std::string ciphered_str = hex_to_string(ciphered);
 
     //stream and keystream generation
     stream_generation(key, stream_generated);
@@ -322,9 +337,9 @@ void MainWindow::rc4_decipher(const std::string ciphered, const std::string key)
     }
     keystream_hex = string_to_hex(keystream_str);
 
-    for(unsigned int i=0;i<ciphered.length();i++)
+    for(unsigned int i=0;i<ciphered_str.length();i++)
     {
-        decoded_message += ciphered[i] ^  (keystream[i]);
+        decoded_message += ciphered_str[i] ^ keystream[i];
     }
     decoded_message_hex = string_to_hex(decoded_message);
 

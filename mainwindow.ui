@@ -353,6 +353,45 @@
      <string>Text to decipher:</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioButton_hexa">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hexa</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_string">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>10</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>string</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_inputmode">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>10</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Input Mode: </string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
