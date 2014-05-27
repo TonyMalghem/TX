@@ -40,7 +40,7 @@ void rc4::cipher(const std::string plaintext, const std::string key, const bool 
             encoded_message += plaintext_str[i] ^  keystream_str[i];
         }
     }
-
+    qDebug()<<QString::fromStdString(encoded_message);
     setEncoded(encoded_message);
 }
 

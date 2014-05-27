@@ -9,6 +9,8 @@
 /* - aes                                                         */
 /* - rsa                                                         */
 /* - rc4 : demonstration construction keystream                  */
+/* - rc4 : pour cipher : ajout d'une zone input->hex             */
+/* - rc4 : pour decipher : ajout d'une zone result->hex          */
 /* - DOXYGEN                                                     */
 /*****************************************************************/
 
