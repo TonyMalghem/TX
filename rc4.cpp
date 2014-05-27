@@ -144,6 +144,6 @@ void rc4::keystream_generation(int* const stream, int* keystream)
         Swapper=stream[i];
         stream[i]=stream[j];
         stream[j]=Swapper;
-        keystream[i]=stream[(stream[i]+stream[j])%255];
+        keystream[k]=stream[(stream[i]+stream[j])%255];
     }
 }

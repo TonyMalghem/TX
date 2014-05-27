@@ -183,6 +183,7 @@ void MainWindow::afficheCipher()
     ui->textEdit_inputTextHex->show();
     ui->textBrowser_cipheredPlain->hide();
     ui->label_finalPlain->hide();
+    ui->textEdit_inputTextHex->setReadOnly(true);
 }
 
 void MainWindow::afficheDecipher()
