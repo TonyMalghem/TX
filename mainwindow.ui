@@ -86,9 +86,9 @@
    <widget class="QTextBrowser" name="textBrowser_ciphered">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>280</x>
       <y>330</y>
-      <width>851</width>
+      <width>501</width>
       <height>191</height>
      </rect>
     </property>
@@ -311,14 +311,14 @@
    <widget class="QLabel" name="label_final">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>280</x>
       <y>300</y>
-      <width>91</width>
+      <width>131</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Final Result:</string>
+     <string>Final Result in Hex:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_decipher">
@@ -390,6 +390,52 @@
     </property>
     <property name="text">
      <string>Input Mode: </string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_inputTextHex">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>1221</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_inputHex">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Text in Hex:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_finalPlain">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>300</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Final Result in clear text:</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser_cipheredPlain">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>330</y>
+      <width>431</width>
+      <height>191</height>
+     </rect>
     </property>
    </widget>
   </widget>

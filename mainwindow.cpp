@@ -9,8 +9,8 @@
 /* - aes                                                         */
 /* - rsa                                                         */
 /* - rc4 : demonstration construction keystream                  */
-/* - rc4 : pour cipher : ajout d'une zone input->hex             */
-/* - rc4 : pour decipher : ajout d'une zone result->hex          */
+/* => intégration shéma dans nouvelle fenêtre avec remplissage   */
+/* de labels                                                     */
 /* - DOXYGEN                                                     */
 /*****************************************************************/
 
@@ -131,6 +131,7 @@ void MainWindow::afficheDecoded()
     ui->textBrowser_result4->setText(enc4);
 
     ui->textBrowser_ciphered->setText(aff);
+    ui->textBrowser_cipheredPlain->setText(QString::fromStdString(rc4_obj.getDecoded()));
 }
 
 void MainWindow::afficheRC4()
@@ -178,6 +179,10 @@ void MainWindow::afficheCipher()
     ui->label_decipher->hide();
     ui->radioButton_hexa->setChecked(true);
     ui->radioButton_string->setCheckable(true);
+    ui->label_inputHex->show();
+    ui->textEdit_inputTextHex->show();
+    ui->textBrowser_cipheredPlain->hide();
+    ui->label_finalPlain->hide();
 }
 
 void MainWindow::afficheDecipher()
@@ -188,6 +193,10 @@ void MainWindow::afficheDecipher()
     ui->label_decipher->show();
     ui->radioButton_hexa->setChecked(true);
     ui->radioButton_string->setCheckable(false);
+    ui->label_inputHex->hide();
+    ui->textEdit_inputTextHex->hide();
+    ui->textBrowser_cipheredPlain->show();
+    ui->label_finalPlain->show();
 }
 
 void MainWindow::cipherClicked()
@@ -251,6 +260,7 @@ void MainWindow::cipherButtonClicked()
     QString inp4 = input_qhex[8] + '\0';
     inp4.append(input_qhex[9]);
 
+    ui->textEdit_inputTextHex->setText(input_qhex);
     //display of the 5 first char of the input text
     ui->textBrowser_input0->setText(inp0);
     ui->textBrowser_input1->setText(inp1);
