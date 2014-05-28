@@ -12,6 +12,7 @@
 /* => intégration shéma dans nouvelle fenêtre avec remplissage   */
 /* de labels                                                     */
 /* - DOXYGEN                                                     */
+/* - exceptions                                                  */
 /*****************************************************************/
 
 rc4 rc4_obj("","","");
