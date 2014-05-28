@@ -15,6 +15,7 @@
 /*****************************************************************/
 
 rc4 rc4_obj("","","");
+int compt_disp=0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,55 +38,102 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::afficheEncoded()
+void MainWindow::mousePressEvent(QMouseEvent *e)
 {
-    std::string keystream_hex = rc4_obj.getKeystream();
-    std::string encoded_message_hex;
-    QString aff = QString::fromStdString(keystream_hex);
+    if(e->button()==Qt::RightButton)
+    {
+        QString k = QString::fromStdString(rc4_obj.getKeystream());
+        QString in;
+        if(!ui->radioButton_hexa->isChecked())
+            in = QString::fromStdString(rc4_obj.string_to_hex(textCleaner(ui->textEdit_inputText->toPlainText()).toStdString()));
+        else
+            in =QString::fromStdString(textCleaner(ui->textEdit_inputText->toPlainText()).toStdString());
+        QString en = QString::fromStdString(rc4_obj.string_to_hex(rc4_obj.getEncoded()));
+        QString affK;
+        QString affIn;
+        QString affEn;
 
-    QString key0 = aff[0] + '\0';
-    key0.append(aff[1]);
-    QString key1 = aff[2] + '\0';
-    key1.append(aff[3]);
-    QString key2 = aff[4] + '\0';
-    key2.append(aff[5]);
-    QString key3 = aff[6] + '\0';
-    key3.append(aff[7]);
-    QString key4 = aff[8] + '\0';
-    key4.append(aff[9]);
+        switch(compt_disp)
+        {
+        case 0:
+            ui->textBrowser_input0->setText("");
+            ui->textBrowser_keystream0->setText("");
+            ui->textBrowser_result0->setText("");
+            ui->textBrowser_input1->setText("");
+            ui->textBrowser_keystream1->setText("");
+            ui->textBrowser_result1->setText("");
+            ui->textBrowser_input2->setText("");
+            ui->textBrowser_keystream2->setText("");
+            ui->textBrowser_result2->setText("");
+            ui->textBrowser_input3->setText("");
+            ui->textBrowser_keystream3->setText("");
+            ui->textBrowser_result3->setText("");
+            ui->textBrowser_input4->setText("");
+            ui->textBrowser_keystream4->setText("");
+            ui->textBrowser_result4->setText("");
 
-    aff.clear();
-    if(ui->radioButton_string->isChecked())
-        encoded_message_hex = rc4_obj.string_to_hex(rc4_obj.getEncoded());
-    else
-        encoded_message_hex = rc4_obj.string_to_hex(rc4_obj.getEncoded());
-
-    aff = QString::fromStdString(encoded_message_hex);
-
-    QString enc0 = aff[0] + '\0';
-    enc0.append(aff[1]);
-    QString enc1 = aff[2] + '\0';
-    enc1.append(aff[3]);
-    QString enc2 = aff[4] + '\0';
-    enc2.append(aff[5]);
-    QString enc3 = aff[6] + '\0';
-    enc3.append(aff[7]);
-    QString enc4 = aff[8] + '\0';
-    enc4.append(aff[9]);
-
-    ui->textBrowser_keystream0->setText(key0);
-    ui->textBrowser_keystream1->setText(key1);
-    ui->textBrowser_keystream2->setText(key2);
-    ui->textBrowser_keystream3->setText(key3);
-    ui->textBrowser_keystream4->setText(key4);
-
-    ui->textBrowser_result0->setText(enc0);
-    ui->textBrowser_result1->setText(enc1);
-    ui->textBrowser_result2->setText(enc2);
-    ui->textBrowser_result3->setText(enc3);
-    ui->textBrowser_result4->setText(enc4);
-
-    ui->textBrowser_ciphered->setText(aff);
+            affK = k[0];
+            affK.append(k[1]);
+            affIn = in[0];
+            affIn.append(in[1]);
+            affEn = en[0];
+            affEn.append(en[1]);
+            ui->textBrowser_input0->setText(affIn);
+            ui->textBrowser_keystream0->setText(affK);
+            ui->textBrowser_result0->setText(affEn);
+            break;
+        case 1:
+            affK = k[2];
+            affK.append(k[3]);
+            affIn = in[2];
+            affIn.append(in[3]);
+            affEn = en[2];
+            affEn.append(en[3]);
+            ui->textBrowser_input1->setText(affIn);
+            ui->textBrowser_keystream1->setText(affK);
+            ui->textBrowser_result1->setText(affEn);
+            break;
+        case 2:
+            affK = k[4];
+            affK.append(k[5]);
+            affIn = in[4];
+            affIn.append(in[5]);
+            affEn = en[4];
+            affEn.append(en[5]);
+            ui->textBrowser_input2->setText(affIn);
+            ui->textBrowser_keystream2->setText(affK);
+            ui->textBrowser_result2->setText(affEn);
+            break;
+        case 3:
+            affK = k[6];
+            affK.append(k[7]);
+            affIn = in[6];
+            affIn.append(in[7]);
+            affEn = en[6];
+            affEn.append(en[7]);
+            ui->textBrowser_input3->setText(affIn);
+            ui->textBrowser_keystream3->setText(affK);
+            ui->textBrowser_result3->setText(affEn);
+            break;
+        case 4:
+            affK = k[8];
+            affK.append(k[9]);
+            affIn = in[8];
+            affIn.append(in[9]);
+            affEn = en[8];
+            affEn.append(en[9]);
+            ui->textBrowser_input4->setText(affIn);
+            ui->textBrowser_keystream4->setText(affK);
+            ui->textBrowser_result4->setText(affEn);
+            break;
+        case 5:
+            ui->textBrowser_ciphered->setText(en);
+            break;
+        default:
+            break;
+        }
+        compt_disp=(compt_disp+1)%6;
+    }
 }
 
 void MainWindow::afficheDecoded()
@@ -250,30 +298,12 @@ void MainWindow::cipherButtonClicked()
     else //ui->radioButton_hex->isChecked()
         input_qhex = input;
 
-    QString inp0 = input_qhex[0] + '\0';
-    inp0.append(input_qhex[1]);
-    QString inp1 = input_qhex[2] + '\0';
-    inp1.append(input_qhex[3]);
-    QString inp2 = input_qhex[4] + '\0';
-    inp2.append(input_qhex[5]);
-    QString inp3 = input_qhex[6] + '\0';
-    inp3.append(input_qhex[7]);
-    QString inp4 = input_qhex[8] + '\0';
-    inp4.append(input_qhex[9]);
-
     ui->textEdit_inputTextHex->setText(input_qhex);
-    //display of the 5 first char of the input text
-    ui->textBrowser_input0->setText(inp0);
-    ui->textBrowser_input1->setText(inp1);
-    ui->textBrowser_input2->setText(inp2);
-    ui->textBrowser_input3->setText(inp3);
-    ui->textBrowser_input4->setText(inp4);
 
     if(ui->radioButton_hexa->isChecked())
         rc4_obj.cipher(input_str,key_str,true);
     else
         rc4_obj.cipher(input_str,key_str,false);
-    afficheEncoded();
 }
 
 void MainWindow::decipherButtonClicked()

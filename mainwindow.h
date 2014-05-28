@@ -28,7 +28,6 @@ public:
     void afficheRSA();
     void afficheDecipher();
     void afficheCipher();
-    void afficheEncoded();
     void afficheDecoded();
     QString textCleaner(QString const TextToClean);
     void rc4_cipher(const std::string plaintext, const std::string key);
@@ -38,6 +37,7 @@ public:
     void stream_generation(const std::string key, int* Stream);
     std::string hex_to_string(const std::string& input);
     std::string string_to_hex(const std::string& input);
+    void mousePressEvent(QMouseEvent* e);
 
 private:
     Ui::MainWindow *ui;

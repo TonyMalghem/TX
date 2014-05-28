@@ -1,4 +1,5 @@
 #include <string>
+#include <QMouseEvent>
 
 #ifndef RC4_H
 #define RC4_H
