@@ -311,6 +311,7 @@ void MainWindow::afficheRC4()
 {
     afficheCipher();
     hideRSA();
+    ui->label_index->hide();
     ui->textEdit_inputText->show();
     ui->textEdit_key->show();
     ui->textBrowser_result0->show();
@@ -442,6 +443,7 @@ void MainWindow::afficheRSA()
     clearTextEdit();
     hideRC4();
     this->setWindowTitle("RSA");
+    ui->label_index->hide();
     ui->textEdit_RSA_M->show();
     ui->textEdit_RSA_p->show();
     ui->textEdit_RSA_q->show();
@@ -560,6 +562,7 @@ void MainWindow::afficheImage()
     ui->textBrowser_img8->show();
     ui->textBrowser_img91->show();
     ui->textBrowser_img99->show();
+    ui->label_index->show();
 }
 
 void MainWindow::cipherClicked()
@@ -791,39 +794,39 @@ void MainWindow::imageButtonClicked()
     remplissageImage();
 
     ui->textBrowser_img0->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img0->setGeometry(QRect(531, 123, 40, 30));
+    ui->textBrowser_img0->setGeometry(QRect(531, 123, 70, 30));
 
     ui->textBrowser_img1->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img1->setGeometry(QRect(713, 123, 40, 30));
+    ui->textBrowser_img1->setGeometry(QRect(713, 123, 70, 30));
 
     ui->textBrowser_img2->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img2->setGeometry(QRect(531, 203, 40, 30));
+    ui->textBrowser_img2->setGeometry(QRect(531, 203, 70, 30));
 
     ui->textBrowser_img3->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img3->setGeometry(QRect(713, 203, 40, 30));
+    ui->textBrowser_img3->setGeometry(QRect(713, 203, 70, 30));
 
     ui->textBrowser_img4->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img4->setGeometry(QRect(531, 282, 40, 30));
+    ui->textBrowser_img4->setGeometry(QRect(531, 282, 70, 30));
 
     ui->textBrowser_img5->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img5->setGeometry(QRect(713, 282, 40, 30));
+    ui->textBrowser_img5->setGeometry(QRect(713, 282, 70, 30));
 
     ui->textBrowser_img6->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img6->setGeometry(QRect(402, 282, 40, 30));
+    ui->textBrowser_img6->setGeometry(QRect(402, 282, 70, 30));
 
     ui->textBrowser_img7->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img7->setGeometry(QRect(800, 400, 120, 30));
+    ui->textBrowser_img7->setGeometry(QRect(800, 400, 140, 30));
 
     ui->textBrowser_img8->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img8->setGeometry(QRect(900, 400, 40, 30));
+    ui->textBrowser_img8->setGeometry(QRect(950, 400, 70, 30));
 
     ui->textBrowser_img91->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img91->setGeometry(QRect(800, 500, 120, 30));
+    ui->textBrowser_img91->setGeometry(QRect(800, 500, 140, 30));
 
     ui->textBrowser_img99->setStyleSheet("background-color: #6699FF");
-    ui->textBrowser_img99->setGeometry(QRect(900, 500, 40, 30));
+    ui->textBrowser_img99->setGeometry(QRect(950, 500, 70, 30));
 
-    QPixmap *p=new QPixmap("C:/Users/Julien/Desktop/TX/Application/rc4_keystream.jpg");
+    QPixmap *p=new QPixmap("/home/Tony/rc4_keystream.jpg");
     QPixmap p1(p->scaled ( ui->label_image->width(),ui->label_image->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
     ui->label_image->setPixmap(p1);
     ui->label_image->show();
@@ -847,50 +850,106 @@ void MainWindow::backButtonClicked()
     ui->textBrowser_img8->hide();
     ui->textBrowser_img91->hide();
     ui->textBrowser_img99->hide();
+    ui->label_index->hide();
 
-    ui->label_cipher->show();
-    ui->label_decipher->show();
-    ui->label_equal->show();
-    ui->label_equal1->show();
-    ui->label_equal2->show();
-    ui->label_equal3->show();
-    ui->label_equal4->show();
-    ui->label_final->show();
-    ui->label_finalPlain->show();
-    ui->label_inputHex->show();
-    ui->label_inputmode->show();
-    ui->label_key->show();
-    ui->label_keystreambox->show();
-    ui->label_res->show();
-    ui->label_textbox->show();
-    ui->label_xor->show();
-    ui->label_xor1->show();
-    ui->label_xor2->show();
-    ui->label_xor3->show();
-    ui->label_xor4->show();
-    ui->pushButton_cipher->show();
-    ui->pushButton_decipher->show();
-    ui->pushButton_image->show();
-    ui->radioButton_hexa->show();
-    ui->radioButton_string->show();
-    ui->textBrowser_ciphered->show();
-    ui->textBrowser_cipheredPlain->show();
-    ui->textBrowser_input0->show();
-    ui->textBrowser_input1->show();
-    ui->textBrowser_input2->show();
-    ui->textBrowser_input3->show();
-    ui->textBrowser_input4->show();
-    ui->textBrowser_keystream0->show();
-    ui->textBrowser_keystream1->show();
-    ui->textBrowser_keystream2->show();
-    ui->textBrowser_keystream3->show();
-    ui->textBrowser_keystream4->show();
-    ui->textBrowser_result0->show();
-    ui->textBrowser_result1->show();
-    ui->textBrowser_result2->show();
-    ui->textBrowser_result3->show();
-    ui->textBrowser_result4->show();
-    ui->textEdit_inputText->show();
-    ui->textEdit_inputTextHex->show();
-    ui->textEdit_key->show();
+    if(mode==1)
+    {
+        if(CipherMode)
+        {
+            ui->label_cipher->show();
+            ui->label_decipher->hide();
+            ui->label_equal->show();
+            ui->label_equal1->hide();
+            ui->label_equal2->hide();
+            ui->label_equal3->hide();
+            ui->label_equal4->hide();
+            ui->label_final->show();
+            ui->label_finalPlain->hide();
+            ui->label_inputHex->show();
+            ui->label_inputmode->show();
+            ui->label_key->show();
+            ui->label_keystreambox->show();
+            ui->label_res->show();
+            ui->label_textbox->show();
+            ui->label_xor->show();
+            ui->label_xor1->hide();
+            ui->label_xor2->hide();
+            ui->label_xor3->hide();
+            ui->label_xor4->hide();
+            ui->pushButton_cipher->show();
+            ui->pushButton_decipher->show();
+            ui->pushButton_decipher->setEnabled(false);
+            ui->pushButton_image->show();
+            ui->radioButton_hexa->show();
+            ui->radioButton_string->show();
+            ui->textBrowser_ciphered->show();
+            ui->textBrowser_cipheredPlain->hide();
+            ui->textBrowser_input0->show();
+            ui->textBrowser_input1->show();
+            ui->textBrowser_input2->show();
+            ui->textBrowser_input3->show();
+            ui->textBrowser_input4->show();
+            ui->textBrowser_keystream0->show();
+            ui->textBrowser_keystream1->show();
+            ui->textBrowser_keystream2->show();
+            ui->textBrowser_keystream3->show();
+            ui->textBrowser_keystream4->show();
+            ui->textBrowser_result0->show();
+            ui->textBrowser_result1->show();
+            ui->textBrowser_result2->show();
+            ui->textBrowser_result3->show();
+            ui->textBrowser_result4->show();
+            ui->textEdit_inputText->show();
+            ui->textEdit_inputTextHex->show();
+            ui->textEdit_key->show();
+        }
+        else
+        {
+            ui->label_cipher->hide();
+            ui->label_decipher->show();
+            ui->label_equal->show();
+            ui->label_equal1->hide();
+            ui->label_equal2->hide();
+            ui->label_equal3->hide();
+            ui->label_equal4->hide();
+            ui->label_final->show();
+            ui->label_finalPlain->show();
+            ui->label_inputHex->show();
+            ui->label_inputmode->show();
+            ui->label_key->show();
+            ui->label_keystreambox->show();
+            ui->label_res->show();
+            ui->label_textbox->show();
+            ui->label_xor->show();
+            ui->label_xor1->hide();
+            ui->label_xor2->hide();
+            ui->label_xor3->hide();
+            ui->label_xor4->hide();
+            ui->pushButton_cipher->show();
+            ui->pushButton_decipher->setEnabled(false);
+            ui->pushButton_image->show();
+            ui->radioButton_hexa->show();
+            ui->radioButton_string->show();
+            ui->textBrowser_ciphered->show();
+            ui->textBrowser_cipheredPlain->show();
+            ui->textBrowser_input0->show();
+            ui->textBrowser_input1->show();
+            ui->textBrowser_input2->show();
+            ui->textBrowser_input3->show();
+            ui->textBrowser_input4->show();
+            ui->textBrowser_keystream0->show();
+            ui->textBrowser_keystream1->show();
+            ui->textBrowser_keystream2->show();
+            ui->textBrowser_keystream3->show();
+            ui->textBrowser_keystream4->show();
+            ui->textBrowser_result0->show();
+            ui->textBrowser_result1->show();
+            ui->textBrowser_result2->show();
+            ui->textBrowser_result3->show();
+            ui->textBrowser_result4->show();
+            ui->textEdit_inputText->show();
+            ui->textEdit_inputTextHex->show();
+            ui->textEdit_key->show();
+        }
+    }
 }
