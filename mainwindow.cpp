@@ -8,7 +8,7 @@
 /*                               TODO                            */
 /*****************************************************************/
 /* - aes                                                         */
-/* - rsa                                                         */
+/* - rsa : ui                                                    */
 /* - rc4 : demonstration construction keystream                  */
 /* => intégration shéma dans nouvelle fenêtre avec remplissage   */
 /* de labels                                                     */
