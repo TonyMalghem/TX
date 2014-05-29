@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAES,SIGNAL(triggered()),this,SLOT(aesClicked()));
     QObject::connect(ui->actionRSA,SIGNAL(triggered()),this,SLOT(rsaClicked()));
     QObject::connect(ui->actionRC4,SIGNAL(triggered()),this,SLOT(rc4Clicked()));
+    QObject::connect(ui->pushButton_image,SIGNAL(clicked()),this,SLOT(imageButtonClicked()));
+    QObject::connect(ui->pushButton_back,SIGNAL(clicked()),this,SLOT(backButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -349,6 +351,19 @@ void MainWindow::afficheRC4()
     ui->label_xor3->hide();
     ui->label_equal4->hide();
     ui->label_xor4->hide();
+    ui->label_image->hide();
+    ui->pushButton_back->hide();
+    ui->textBrowser_img0->hide();
+    ui->textBrowser_img1->hide();
+    ui->textBrowser_img2->hide();
+    ui->textBrowser_img3->hide();
+    ui->textBrowser_img4->hide();
+    ui->textBrowser_img5->hide();
+    ui->textBrowser_img6->hide();
+    ui->textBrowser_img7->hide();
+    ui->textBrowser_img8->hide();
+    ui->textBrowser_img91->hide();
+    ui->textBrowser_img99->hide();
 }
 
 void MainWindow::hideRSA()
@@ -482,6 +497,69 @@ void MainWindow::afficheDecipher()
         ui->label_equal4->hide();
         ui->label_xor4->hide();
     }
+}
+
+void MainWindow::afficheImage()
+{
+	ui->label_cipher->hide();
+	ui->label_decipher->hide();
+	ui->label_equal->hide();
+	ui->label_equal1->hide();
+	ui->label_equal2->hide();
+	ui->label_equal3->hide();
+	ui->label_equal4->hide();
+	ui->label_final->hide();
+	ui->label_finalPlain->hide();
+	ui->label_inputHex->hide();
+	ui->label_inputmode->hide();
+	ui->label_key->hide();
+	ui->label_keystreambox->hide();
+	ui->label_res->hide();
+	ui->label_textbox->hide();
+	ui->label_xor->hide();
+	ui->label_xor1->hide();
+	ui->label_xor2->hide();
+	ui->label_xor3->hide();
+	ui->label_xor4->hide();
+	ui->pushButton_cipher->hide();
+	ui->pushButton_decipher->hide();
+	ui->pushButton_image->hide();
+	ui->radioButton_hexa->hide();
+	ui->radioButton_string->hide();
+	ui->textBrowser_ciphered->hide();
+	ui->textBrowser_cipheredPlain->hide();
+	ui->textBrowser_input0->hide();
+	ui->textBrowser_input1->hide();
+	ui->textBrowser_input2->hide();
+	ui->textBrowser_input3->hide();
+	ui->textBrowser_input4->hide();
+	ui->textBrowser_keystream0->hide();
+	ui->textBrowser_keystream1->hide();
+	ui->textBrowser_keystream2->hide();
+	ui->textBrowser_keystream3->hide();
+	ui->textBrowser_keystream4->hide();
+	ui->textBrowser_result0->hide();
+	ui->textBrowser_result1->hide();
+	ui->textBrowser_result2->hide();
+	ui->textBrowser_result3->hide();
+	ui->textBrowser_result4->hide();
+	ui->textEdit_inputText->hide();
+	ui->textEdit_inputTextHex->hide();
+	ui->textEdit_key->hide();
+	
+	ui->label_image->show();
+	ui->pushButton_back->show();
+    ui->textBrowser_img0->show();
+    ui->textBrowser_img1->show();
+    ui->textBrowser_img2->show();
+    ui->textBrowser_img3->show();
+    ui->textBrowser_img4->show();
+    ui->textBrowser_img5->show();
+    ui->textBrowser_img6->show();
+    ui->textBrowser_img7->show();
+    ui->textBrowser_img8->show();
+    ui->textBrowser_img91->show();
+    ui->textBrowser_img99->show();
 }
 
 void MainWindow::cipherClicked()
@@ -664,3 +742,155 @@ QString MainWindow::removeAccents(const QString s)
         }
         return output;
  }
+ 
+ void MainWindow::remplissageImage()
+{
+    QString key = ui->textEdit_key->toPlainText();
+    std::string key_str = key.toStdString();
+    int stream_generated[255] = {};
+    int i = 0;
+    int j = 0;
+    int a0,a1,a2,a3,a4,a5,a6,a8,a99;
+
+    if (key_str.length() <2)
+    {
+        return;
+    }
+    else
+    {
+    rc4_obj.stream_generation(key_str, stream_generated);
+
+    i = (i + 1) % 255;
+    j = (j + stream_generated[i]) % 255;
+
+        a0 = stream_generated[i];
+        a1 = stream_generated[j];
+        a2 = stream_generated[j];
+        a3 = stream_generated[i];
+        a4 = stream_generated[j];
+        a5 = stream_generated[i];
+        a6 = stream_generated[(stream_generated[i] + stream_generated[j]) % 255];
+        a8 = i;
+        a99 = j;
+
+        ui->textBrowser_img0->setText(QString::number(a0));
+        ui->textBrowser_img1->setText(QString::number(a1));
+        ui->textBrowser_img2->setText(QString::number(a2));
+        ui->textBrowser_img3->setText(QString::number(a3));
+        ui->textBrowser_img4->setText(QString::number(a4));
+        ui->textBrowser_img5->setText(QString::number(a5));
+        ui->textBrowser_img6->setText(QString::number(a6));
+        ui->textBrowser_img8->setText(QString::number(a8));
+        ui->textBrowser_img99->setText(QString::number(a99));
+    }
+}
+
+void MainWindow::imageButtonClicked()
+{
+    afficheImage();
+    remplissageImage();
+
+    ui->textBrowser_img0->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img0->setGeometry(QRect(531, 123, 40, 30));
+
+    ui->textBrowser_img1->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img1->setGeometry(QRect(713, 123, 40, 30));
+
+    ui->textBrowser_img2->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img2->setGeometry(QRect(531, 203, 40, 30));
+
+    ui->textBrowser_img3->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img3->setGeometry(QRect(713, 203, 40, 30));
+
+    ui->textBrowser_img4->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img4->setGeometry(QRect(531, 282, 40, 30));
+
+    ui->textBrowser_img5->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img5->setGeometry(QRect(713, 282, 40, 30));
+
+    ui->textBrowser_img6->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img6->setGeometry(QRect(402, 282, 40, 30));
+
+    ui->textBrowser_img7->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img7->setGeometry(QRect(800, 400, 120, 30));
+
+    ui->textBrowser_img8->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img8->setGeometry(QRect(900, 400, 40, 30));
+
+    ui->textBrowser_img91->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img91->setGeometry(QRect(800, 500, 120, 30));
+
+    ui->textBrowser_img99->setStyleSheet("background-color: #6699FF");
+    ui->textBrowser_img99->setGeometry(QRect(900, 500, 40, 30));
+
+    QPixmap *p=new QPixmap("C:/Users/Julien/Desktop/TX/Application/rc4_keystream.jpg");
+    QPixmap p1(p->scaled ( ui->label_image->width(),ui->label_image->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
+    ui->label_image->setPixmap(p1);
+    ui->label_image->show();
+    ui->label_image->adjustSize();
+
+    ui->pushButton_back->setGeometry(QRect(1100, 500, 60, 30));
+}
+
+void MainWindow::backButtonClicked()
+{
+    ui->label_image->hide();
+    ui->pushButton_back->hide();
+    ui->textBrowser_img0->hide();
+    ui->textBrowser_img1->hide();
+    ui->textBrowser_img2->hide();
+    ui->textBrowser_img3->hide();
+    ui->textBrowser_img4->hide();
+    ui->textBrowser_img5->hide();
+    ui->textBrowser_img6->hide();
+    ui->textBrowser_img7->hide();
+    ui->textBrowser_img8->hide();
+    ui->textBrowser_img91->hide();
+    ui->textBrowser_img99->hide();
+
+    ui->label_cipher->show();
+    ui->label_decipher->show();
+    ui->label_equal->show();
+    ui->label_equal1->show();
+    ui->label_equal2->show();
+    ui->label_equal3->show();
+    ui->label_equal4->show();
+    ui->label_final->show();
+    ui->label_finalPlain->show();
+    ui->label_inputHex->show();
+    ui->label_inputmode->show();
+    ui->label_key->show();
+    ui->label_keystreambox->show();
+    ui->label_res->show();
+    ui->label_textbox->show();
+    ui->label_xor->show();
+    ui->label_xor1->show();
+    ui->label_xor2->show();
+    ui->label_xor3->show();
+    ui->label_xor4->show();
+    ui->pushButton_cipher->show();
+    ui->pushButton_decipher->show();
+    ui->pushButton_image->show();
+    ui->radioButton_hexa->show();
+    ui->radioButton_string->show();
+    ui->textBrowser_ciphered->show();
+    ui->textBrowser_cipheredPlain->show();
+    ui->textBrowser_input0->show();
+    ui->textBrowser_input1->show();
+    ui->textBrowser_input2->show();
+    ui->textBrowser_input3->show();
+    ui->textBrowser_input4->show();
+    ui->textBrowser_keystream0->show();
+    ui->textBrowser_keystream1->show();
+    ui->textBrowser_keystream2->show();
+    ui->textBrowser_keystream3->show();
+    ui->textBrowser_keystream4->show();
+    ui->textBrowser_result0->show();
+    ui->textBrowser_result1->show();
+    ui->textBrowser_result2->show();
+    ui->textBrowser_result3->show();
+    ui->textBrowser_result4->show();
+    ui->textEdit_inputText->show();
+    ui->textEdit_inputTextHex->show();
+    ui->textEdit_key->show();
+}
