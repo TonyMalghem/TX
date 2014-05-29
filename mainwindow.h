@@ -28,6 +28,8 @@ public:
     void afficheRSA();
     void afficheDecipher();
     void afficheCipher();
+    void afficheImage();
+
     void clearTextEdit();
     void hideRC4();
     void hideRSA();
@@ -53,6 +55,9 @@ private slots:
     void rsaClicked();
     void cipherButtonClicked();
     void decipherButtonClicked();
-};
+    void imageButtonClicked();
+    void backButtonClicked();
+    void remplissageImage();
 
+};
 #endif // MAINWINDOW_H
