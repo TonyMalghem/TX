@@ -29,6 +29,8 @@ public:
     void afficheDecipher();
     void afficheCipher();
     void clearTextEdit();
+    void hideRC4();
+    void hideRSA();
     QString textCleaner(QString const TextToClean);
     void rc4_cipher(const std::string plaintext, const std::string key);
     void rc4_decipher(const std::string ciphered, const std::string key);
