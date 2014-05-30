@@ -65,24 +65,17 @@ bool rsa::isPrime(int in)
     return true;
 }
 
-unsigned long int rsa::generate_m(std::string plaintext)
+unsigned long long rsa::M_to_m(const std::string message)
 {
-    unsigned int n = plaintext.length();
-    char X[n];
-    int x[n];
-    unsigned long int ret=0;
-    for(unsigned int i=0;i<n;i++)
+    unsigned long long m=0;
+    if(message.length()==1)
+        return message.at(0);
+    for(unsigned long int i=message.length()-1;i>0;i--)
     {
-        X[i]=plaintext.at(i);
-        x[i]=X[i];
-        std::cout<<"X= "<<X[i]<<"|| x= "<<x[i]<<std::endl<<std::endl;
+        unsigned int ascii = message.at(i);
+        m+=ascii*pow(256,i);
     }
-    for(int i=n-1;i>=0;i--)
-    {
-        ret+=x[i]*pow(256,i);
-        std::cout<<"ret= "<<ret<<std::endl<<std::endl;
-    }
-    return ret;
+    return m;
 }
 
 int rsa::cipher(int plaintext, int n, int e)

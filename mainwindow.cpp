@@ -670,12 +670,12 @@ void MainWindow::cipherButtonClicked()
             rsa_obj.set_d(d);
             rsa_obj.set_n(n);
             rsa_obj.set_e(e);
-            unsigned long int m = rsa_obj.generate_m(input_message);
-            qDebug()<<"m:"<<m%n;
-            int encoded = rsa_obj.cipher(m,n,e);
+            unsigned long long m = rsa_obj.M_to_m(input_message);
+            qDebug()<<"m= "<<m;
+            /*int encoded = rsa_obj.cipher(m,n,e);
             int decoded = rsa_obj.cipher(encoded,n,d);
             qDebug()<<"encoded: "<<encoded<<endl<<"decoded: "<<decoded;
-            rsa_obj.setEncoded(encoded);
+            rsa_obj.setEncoded(encoded);*/
         }
     }
     else/*AES*/
@@ -768,10 +768,10 @@ QString MainWindow::removeAccents(const QString s)
     }
     else
     {
-    rc4_obj.stream_generation(key_str, stream_generated);
+        rc4_obj.stream_generation(key_str, stream_generated);
 
-    i = (i + 1) % 255;
-    j = (j + stream_generated[i]) % 255;
+        i = (i + 1) % 255;
+        j = (j + stream_generated[i]) % 255;
 
         a0 = stream_generated[i];
         a1 = stream_generated[j];

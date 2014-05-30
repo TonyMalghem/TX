@@ -28,7 +28,8 @@ public:
     int calc_d(const int phi_n, const int e);
     bool isPrime(int A);
     int cipher(int plaintext, int n, int e);
-    unsigned long generate_m(std::string plaintext); //OS2IP from RFC3447
+    unsigned long long M_to_m(const std::string message); //OS2IP from RFC
+    //std::string m_to_M(const BigInt message); //OS2IP reverse operation
 private:
     int encoded_message;
     std::string decoded_message;
