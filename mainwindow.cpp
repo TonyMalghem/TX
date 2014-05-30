@@ -8,7 +8,7 @@
 /*                               TODO                            */
 /*****************************************************************/
 /* - aes                                                         */
-/* - rsa : ui                                                    */
+/* - rsa : ui + fix m_to_M => BigInt                             */
 /* - rc4 : demonstration construction keystream                  */
 /* => intégration shéma dans nouvelle fenêtre avec remplissage   */
 /* de labels                                                     */
