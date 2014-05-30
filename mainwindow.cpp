@@ -659,7 +659,7 @@ void MainWindow::cipherButtonClicked()
     {
         int input_p = ui->textEdit_RSA_p->toPlainText().toInt();
         int input_q = ui->textEdit_RSA_q->toPlainText().toInt();
-        std::string input_message = ui->textEdit_RSA_M->toPlainText().toStdString();
+        std::string input_message = this->textCleaner(ui->textEdit_RSA_M->toPlainText()).toStdString();
 
         if(rsa_obj.isPrime(input_p) && rsa_obj.isPrime(input_q))
         {
@@ -667,13 +667,14 @@ void MainWindow::cipherButtonClicked()
             int phi_n = rsa_obj.calc_phi_n(input_p,input_q);
             int e = rsa_obj.calc_e(phi_n);
             int d = rsa_obj.calc_d(phi_n,e);
-            int in_input_message = input_message.length()+(n/3);
             rsa_obj.set_d(d);
             rsa_obj.set_n(n);
             rsa_obj.set_e(e);
-            int encoded = rsa_obj.cipher(in_input_message,n,e);
+            unsigned long int m = rsa_obj.generate_m(input_message);
+            qDebug()<<"m:"<<m%n;
+            int encoded = rsa_obj.cipher(m,n,e);
             int decoded = rsa_obj.cipher(encoded,n,d);
-            qDebug()<<"m: "<<in_input_message<<endl<<"encoded: "<<encoded<<endl<<"decoded: "<<decoded;
+            qDebug()<<"encoded: "<<encoded<<endl<<"decoded: "<<decoded;
             rsa_obj.setEncoded(encoded);
         }
     }

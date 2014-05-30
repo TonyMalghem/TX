@@ -1,5 +1,7 @@
 #include <string>
 #include <QMouseEvent>
+#include <math.h>
+#include <iostream>
 
 #ifndef RSA_H
 #define RSA_H
@@ -26,6 +28,7 @@ public:
     int calc_d(const int phi_n, const int e);
     bool isPrime(int A);
     int cipher(int plaintext, int n, int e);
+    unsigned long generate_m(std::string plaintext); //OS2IP from RFC3447
 private:
     int encoded_message;
     std::string decoded_message;

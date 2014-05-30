@@ -65,6 +65,26 @@ bool rsa::isPrime(int in)
     return true;
 }
 
+unsigned long int rsa::generate_m(std::string plaintext)
+{
+    unsigned int n = plaintext.length();
+    char X[n];
+    int x[n];
+    unsigned long int ret=0;
+    for(unsigned int i=0;i<n;i++)
+    {
+        X[i]=plaintext.at(i);
+        x[i]=X[i];
+        std::cout<<"X= "<<X[i]<<"|| x= "<<x[i]<<std::endl<<std::endl;
+    }
+    for(int i=n-1;i>=0;i--)
+    {
+        ret+=x[i]*pow(256,i);
+        std::cout<<"ret= "<<ret<<std::endl<<std::endl;
+    }
+    return ret;
+}
+
 int rsa::cipher(int plaintext, int n, int e)
 {
     int i=1, t=1;
