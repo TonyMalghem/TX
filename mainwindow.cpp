@@ -311,6 +311,7 @@ void MainWindow::afficheRC4()
 {
     afficheCipher();
     hideRSA();
+    ui->pushButton_image->hide();
     ui->label_index->hide();
     ui->textEdit_inputText->show();
     ui->textEdit_key->show();
@@ -431,6 +432,7 @@ void MainWindow::hideRC4()
     ui->label_xor3->hide();
     ui->label_equal4->hide();
     ui->label_xor4->hide();
+    ui->pushButton_image->hide();
 }
 
 void MainWindow::afficheAES()
@@ -485,6 +487,7 @@ void MainWindow::afficheDecipher()
     if(mode==1)
     {
         ui->pushButton_decipher->setEnabled(true);
+        ui->pushButton_decipher->show();
         ui->pushButton_cipher->setEnabled(false);
         ui->label_cipher->hide();
         ui->label_decipher->show();
@@ -498,6 +501,7 @@ void MainWindow::afficheDecipher()
         ui->label_xor->show();
         ui->label_equal4->hide();
         ui->label_xor4->hide();
+        ui->pushButton_image->hide();
     }
 }
 
@@ -627,6 +631,7 @@ void MainWindow::cipherButtonClicked()
 {
     if(mode==1)/*if we're working in RC4*/
     {
+        ui->pushButton_image->show();
         QString input = ui->textEdit_inputText->toPlainText();
         QString key = ui->textEdit_key->toPlainText();
         QString input_qhex;
@@ -681,6 +686,7 @@ void MainWindow::decipherButtonClicked()
 {
     if(mode==1)
     {
+        ui->pushButton_image->show();
         QString input = ui->textEdit_inputText->toPlainText();
         QString key = ui->textEdit_key->toPlainText();
 
@@ -926,7 +932,9 @@ void MainWindow::backButtonClicked()
             ui->label_xor3->hide();
             ui->label_xor4->hide();
             ui->pushButton_cipher->show();
-            ui->pushButton_decipher->setEnabled(false);
+            ui->pushButton_cipher->setEnabled(false);
+            ui->pushButton_decipher->setEnabled(true);
+            ui->pushButton_decipher->show();
             ui->pushButton_image->show();
             ui->radioButton_hexa->show();
             ui->radioButton_string->show();
@@ -948,8 +956,9 @@ void MainWindow::backButtonClicked()
             ui->textBrowser_result3->show();
             ui->textBrowser_result4->show();
             ui->textEdit_inputText->show();
-            ui->textEdit_inputTextHex->show();
+            ui->textEdit_inputTextHex->hide();
             ui->textEdit_key->show();
+            ui->label_inputHex->hide();
         }
     }
 }
