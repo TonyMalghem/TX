@@ -8,7 +8,7 @@
 /*                               TODO                            */
 /*****************************************************************/
 /* - aes                                                         */
-/* - rsa : ui + fix m_to_M => BigInt                             */
+/* - rsa : ui                                                    */
 /* - rc4 : demonstration construction keystream                  */
 /* => intégration shéma dans nouvelle fenêtre avec remplissage   */
 /* de labels                                                     */
@@ -309,7 +309,10 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
 void MainWindow::afficheRC4()
 {
-    afficheCipher();
+    if(CipherMode)
+        afficheCipher();
+    else
+        afficheDecipher();
     hideRSA();
     ui->pushButton_image->hide();
     ui->label_index->hide();
@@ -378,6 +381,22 @@ void MainWindow::hideRSA()
     ui->label_RSA_q->hide();
     ui->label_RSA_m->hide();
     ui->textBrowser_RSA_m->hide();
+    ui->label_RSA_n->hide();
+    ui->label_pq->hide();
+    ui->label_eq->hide();
+    ui->label_p->hide();
+    ui->label_q->hide();
+    ui->label_times->hide();
+    ui->label_RSA_phi_n->hide();
+    ui->label_eq_2->hide();
+    ui->label_times_2->hide();
+    ui->label_eq_3->hide();
+    ui->label_times_3->hide();
+    ui->label_pmoins1->hide();
+    ui->label_qmoins1->hide();
+    ui->label_qmoins1_res->hide();
+    ui->label_pmoins1_res->hide();
+    ui->label_phi_n_res->hide();
 }
 
 void MainWindow::hideRC4()
@@ -456,6 +475,13 @@ void MainWindow::afficheRSA()
     ui->pushButton_decipher->show();
     ui->label_RSA_m->show();
     ui->textBrowser_RSA_m->show();
+    ui->label_RSA_n->show();
+    ui->label_RSA_phi_n->show();
+    ui->label_pq->hide();
+    ui->label_eq->hide();
+    ui->label_p->hide();
+    ui->label_q->hide();
+    ui->label_times->hide();
 }
 
 void MainWindow::afficheCipher()
@@ -571,14 +597,14 @@ void MainWindow::afficheImage()
 
 void MainWindow::cipherClicked()
 {
-    afficheCipher();
     CipherMode=true;
+    afficheCipher();
 }
 
 void MainWindow::decipherClicked()
 {
-    afficheDecipher();
     CipherMode=false;
+    afficheDecipher();
 }
 
 void MainWindow::aboutClicked()
@@ -611,20 +637,20 @@ void MainWindow::clearTextEdit()
 
 void MainWindow::rc4Clicked()
 {
-    afficheRC4();
     mode=1;
+    afficheRC4();
 }
 
 void MainWindow::rsaClicked()
 {
-    afficheRSA();
     mode=2;
+    afficheRSA();
 }
 
 void MainWindow::aesClicked()
 {
-    afficheAES();
     mode=3;
+    afficheAES();
 }
 
 void MainWindow::cipherButtonClicked()
@@ -671,18 +697,38 @@ void MainWindow::cipherButtonClicked()
             rsa_obj.set_n(n);
             rsa_obj.set_e(e);
             BigInt m = rsa_obj.M_to_m(input_message);
+            ui->textBrowser_RSA_m->setText(QString::fromStdString(m.ToString()));
+            ui->label_pq->show();
+            ui->label_pq->setText(QString::number(n));
+            ui->label_eq->show();
+            ui->label_p->show();
+            ui->label_p->setText(QString::number(input_p));
+            ui->label_q->show();
+            ui->label_q->setText(QString::number(input_q));
+            ui->label_times->show();
+            ui->label_RSA_phi_n->show();
+            ui->label_eq_2->show();
+            ui->label_times_2->show();
+            ui->label_eq_3->show();
+            ui->label_times_3->show();
+            ui->label_pmoins1->show();
+            ui->label_pmoins1->setText("(p-1)");
+            ui->label_qmoins1->show();
+            ui->label_qmoins1->setText("(q-1)");
+            ui->label_qmoins1_res->show();
+            ui->label_qmoins1_res->setText(QString::number(input_q-1));
+            ui->label_pmoins1_res->show();
+            ui->label_pmoins1_res->setText(QString::number(input_p-1));
+            ui->label_phi_n_res->show();
+            ui->label_phi_n_res->setText(QString::number(phi_n));
             BigInt encoded = rsa_obj.cipher(m,n,e);
-            std::string M = rsa_obj.m_to_M(m);
-            BigInt decoded = rsa_obj.cipher(encoded,n,d);
+            /*BigInt decoded = rsa_obj.cipher(encoded,n,d);
             BigInt q = m/n;
             std::cout<<q*n<<std::endl<<std::endl;
             std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
-            std::cout<<"m= "<<m<<std::endl<<"encoded= "<<encoded<<std::endl<<"decoded= "<<decoded<<std::endl<<"decoded_str= "<<decoded_str<<std::endl;
-            //std::string decoded = rsa_obj.m_to_M(rsa_obj.cipher(encoded,n,d));
-            //std::cout<<"encoded: "<<encoded<<std::endl<<"decoded: "<<decoded;
-            //std::cout<<std::endl<<std::endl;
-
-            //rsa_obj.setEncoded(encoded);
+            std::cout<<"m= "<<m<<std::endl<<"encoded= "<<encoded<<std::endl<<"decoded= "<<decoded<<std::endl<<"decoded_str= "<<decoded_str<<std::endl;*/
+            rsa_obj.setEncoded(encoded);
+            rsa_obj.set_m(m);
         }
     }
     else/*AES*/

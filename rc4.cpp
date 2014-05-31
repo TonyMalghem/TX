@@ -1,5 +1,6 @@
 #include "rc4.h"
 #include "mainwindow.h"
+#include "exceptions.h"
 
 void rc4::cipher(const std::string plaintext, const std::string key, const bool isHex)
 {
@@ -123,10 +124,24 @@ void rc4::stream_generation(const std::string key, int* Stream)
 
     for(int i=0;i<=254;i++)
     {
-        j = (j + Stream[i] + (key[i%key.length()])) % 255;
-        Swapper = Stream[i];
-        Stream[i] = Stream[j];
-        Stream[j] = Swapper;
+        try
+        {
+            if(key.length()!=0)
+            {
+                j = (j + Stream[i] + (key[i%key.length()])) % 255;
+                Swapper = Stream[i];
+                Stream[i] = Stream[j];
+                Stream[j] = Swapper;
+            }
+            else
+            {
+                throw CryptExceptions("The key musn't be null");
+            }
+        }
+        catch(CryptExceptions e)
+        {
+            e.alert();
+        }
     }
 }
 
