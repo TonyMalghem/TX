@@ -122,26 +122,26 @@ void rc4::stream_generation(const std::string key, int* Stream)
         Stream[i]=i;
     }
 
-    for(int i=0;i<=254;i++)
+    try
     {
-        try
+        if(key.length()!=0)
         {
-            if(key.length()!=0)
+            for(int i=0;i<=254;i++)
             {
                 j = (j + Stream[i] + (key[i%key.length()])) % 255;
                 Swapper = Stream[i];
                 Stream[i] = Stream[j];
                 Stream[j] = Swapper;
             }
-            else
-            {
-                throw CryptExceptions("The key musn't be null");
-            }
         }
-        catch(CryptExceptions e)
+        else
         {
-            e.alert();
+            throw CryptExceptions("The key must be not null");
         }
+    }
+    catch(CryptExceptions e)
+    {
+        e.alert();
     }
 }
 

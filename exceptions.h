@@ -12,16 +12,12 @@ class CryptExceptions : public std::exception
 public:
     CryptExceptions(const QString s)throw():info(s){}
     ~CryptExceptions()throw(){}
-    const QString GetInfo() const{return info;}
+    const QString getInfo() const{return info;}
     void alert()
     {
-        QMessageBox msgBox(0);
-        msgBox.setWindowTitle("Error");
-        msgBox.setText(GetInfo());
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
+        QMessageBox mBox;
+        mBox.setText(getInfo());
+        mBox.exec();
     }
 };
 
