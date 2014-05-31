@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include <math.h>
 #include <iostream>
+#include "BigInt.h"
 
 #ifndef RSA_H
 #define RSA_H
@@ -27,9 +28,9 @@ public:
     int calc_e(const int phi_n);
     int calc_d(const int phi_n, const int e);
     bool isPrime(int A);
-    int cipher(int plaintext, int n, int e);
-    unsigned long long M_to_m(const std::string message); //OS2IP from RFC
-    //std::string m_to_M(const BigInt message); //OS2IP reverse operation
+    BigInt cipher(BigInt plaintext, int n, int e);
+    BigInt M_to_m(const std::string message); //OS2IP from RFC
+    std::string m_to_M(const BigInt message); //OS2IP reverse operation
 private:
     int encoded_message;
     std::string decoded_message;

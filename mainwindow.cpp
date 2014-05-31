@@ -670,12 +670,19 @@ void MainWindow::cipherButtonClicked()
             rsa_obj.set_d(d);
             rsa_obj.set_n(n);
             rsa_obj.set_e(e);
-            unsigned long long m = rsa_obj.M_to_m(input_message);
-            qDebug()<<"m= "<<m;
-            /*int encoded = rsa_obj.cipher(m,n,e);
-            int decoded = rsa_obj.cipher(encoded,n,d);
-            qDebug()<<"encoded: "<<encoded<<endl<<"decoded: "<<decoded;
-            rsa_obj.setEncoded(encoded);*/
+            BigInt m = rsa_obj.M_to_m(input_message);
+            BigInt encoded = rsa_obj.cipher(m,n,e);
+            std::string M = rsa_obj.m_to_M(m);
+            BigInt decoded = rsa_obj.cipher(encoded,n,d);
+            BigInt q = m/n;
+            std::cout<<q*n<<std::endl<<std::endl;
+            std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
+            std::cout<<"m= "<<m<<std::endl<<"encoded= "<<encoded<<std::endl<<"decoded= "<<decoded<<std::endl<<"decoded_str= "<<decoded_str<<std::endl;
+            //std::string decoded = rsa_obj.m_to_M(rsa_obj.cipher(encoded,n,d));
+            //std::cout<<"encoded: "<<encoded<<std::endl<<"decoded: "<<decoded;
+            //std::cout<<std::endl<<std::endl;
+
+            //rsa_obj.setEncoded(encoded);
         }
     }
     else/*AES*/

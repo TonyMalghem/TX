@@ -65,22 +65,42 @@ bool rsa::isPrime(int in)
     return true;
 }
 
-unsigned long long rsa::M_to_m(const std::string message)
+BigInt rsa::M_to_m(const std::string message)
 {
-    unsigned long long m=0;
-    if(message.length()==1)
-        return message.at(0);
-    for(unsigned long int i=message.length()-1;i>0;i--)
+    std::string m;
+    m.resize(message.length()*3+1);
+    unsigned long int index = message.length()*3;
+
+    for(unsigned long int i=0;i<message.length();i++)
     {
-        unsigned int ascii = message.at(i);
-        m+=ascii*pow(256,i);
+        unsigned char ascii = message.at(i);
+        m[index-2]=(ascii%10)+'0';
+        ascii/=10;
+        m[index-1]=(ascii%10)+'0';
+        m[index]=(ascii/10)+'0';
+        index-=3;
     }
+    m[0]='1';
     return m;
 }
 
-int rsa::cipher(int plaintext, int n, int e)
+std::string rsa::m_to_M(const BigInt message)
 {
-    int i=1, t=1;
+    std::string decoded;
+    for (unsigned long int i(0); i < message.Length() / 3; i++)
+    {
+        char ASCII = 100 * char(message.GetDigit(i * 3));
+        ASCII += 10 * char(message.GetDigit(i * 3 + 1));
+        decoded.push_back(ASCII + char(message.GetDigit(i * 3 + 2)));
+    }
+    return decoded;
+}
+
+BigInt rsa::cipher(BigInt plaintext, int n, int e)
+{
+    int i=1;
+    BigInt t;
+    t=1;
     while(i<=e)
     {
         t=t*plaintext;
