@@ -749,7 +749,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>1221</width>
+      <width>591</width>
       <height>31</height>
      </rect>
     </property>
@@ -776,8 +776,8 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>70</y>
+      <x>640</x>
+      <y>10</y>
       <width>221</width>
       <height>16</height>
      </rect>
@@ -789,9 +789,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QTextEdit" name="textEdit_RSA_q">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>1221</width>
+      <x>640</x>
+      <y>30</y>
+      <width>591</width>
       <height>31</height>
      </rect>
     </property>
@@ -1066,6 +1066,104 @@ p, li { white-space: pre-wrap; }
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_calcE">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>221</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choice of public key:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_calcC">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>300</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Calculation of the ciphered message:</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser_RSA_e">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>561</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser_RSA_c1">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>330</y>
+      <width>621</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_RSA_e_in">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>201</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enter the public key:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_RSA_c_in">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>90</y>
+      <width>591</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_RSA_e_in">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>591</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_RSA_c_in">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>70</y>
+      <width>221</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enter the ciphered message:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1081,7 +1179,6 @@ p, li { white-space: pre-wrap; }
      <string>Cipher</string>
     </property>
     <addaction name="actionRC4"/>
-    <addaction name="actionAES"/>
     <addaction name="actionRSA"/>
    </widget>
    <widget class="QMenu" name="menuAbout">

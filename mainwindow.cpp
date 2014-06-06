@@ -392,6 +392,14 @@ void MainWindow::hideRSA()
     ui->label_qmoins1_res->hide();
     ui->label_pmoins1_res->hide();
     ui->label_phi_n_res->hide();
+    ui->label_calcC->hide();
+    ui->label_calcE->hide();
+    ui->textBrowser_RSA_c1->hide();
+    ui->textBrowser_RSA_e->hide();
+    ui->label_RSA_c_in->hide();
+    ui->label_RSA_e_in->hide();
+    ui->textEdit_RSA_c_in->hide();
+    ui->textEdit_RSA_e_in->hide();
 }
 
 void MainWindow::hideRC4()
@@ -472,6 +480,10 @@ void MainWindow::afficheRSA()
     ui->label_p->hide();
     ui->label_q->hide();
     ui->label_times->hide();
+    ui->label_calcC->show();
+    ui->label_calcE->show();
+    ui->textBrowser_RSA_e->show();
+    ui->textBrowser_RSA_c1->show();
 }
 
 void MainWindow::afficheCipher()
@@ -518,6 +530,21 @@ void MainWindow::afficheDecipher()
         ui->label_equal4->hide();
         ui->label_xor4->hide();
         ui->pushButton_image->hide();
+    }
+    else if(mode==2)
+    {
+        ui->label_RSA_c_in->show();
+        ui->label_RSA_e_in->show();
+        ui->textEdit_RSA_c_in->show();
+        ui->textEdit_RSA_e_in->show();
+        ui->pushButton_cipher->setEnabled(false);
+        ui->pushButton_decipher->setEnabled(true);
+        ui->label_calcC->setText("Calculation of the deciphered message:");
+        ui->label_calcE->setText("Calculation of the private key:");
+        ui->textBrowser_RSA_c1->clear();
+        ui->textBrowser_RSA_e->clear();
+        ui->textBrowser_RSA_m->hide();
+        ui->textEdit_RSA_M->hide();
     }
 }
 
@@ -702,6 +729,8 @@ void MainWindow::cipherButtonClicked()
             ui->label_phi_n_res->show();
             ui->label_phi_n_res->setText(QString::number(phi_n));
             BigInt encoded = rsa_obj.cipher(m,n,e);
+            ui->textBrowser_RSA_e->setText(QString::number(e));
+            ui->textBrowser_RSA_c1->setText(QString::fromStdString(encoded.ToString()));
             rsa_obj.setEncoded(encoded);
             rsa_obj.set_m(m);
             /*BigInt decoded = rsa_obj.cipher(encoded,n,d);
@@ -732,6 +761,51 @@ void MainWindow::decipherButtonClicked()
     }
     else if(mode==2)/*RSA*/
     {
+        int input_p = ui->textEdit_RSA_p->toPlainText().toInt();
+        int input_q = ui->textEdit_RSA_q->toPlainText().toInt();
+        int input_e = ui->textEdit_RSA_e_in->toPlainText().toInt();
+        int input_c = ui->textEdit_RSA_c_in->toPlainText().toInt();
+
+        std::string input_message = this->textCleaner(ui->textEdit_RSA_M->toPlainText()).toStdString();
+
+        if(rsa_obj.isPrime(input_p) && rsa_obj.isPrime(input_q))
+        {
+            int n = rsa_obj.calc_n(input_p,input_q);
+            int phi_n = rsa_obj.calc_phi_n(input_p,input_q);
+            int d = rsa_obj.calc_d(phi_n,input_e);
+            BigInt m = rsa_obj.M_to_m(input_message);
+            ui->textBrowser_RSA_m->setText(QString::fromStdString(m.ToString()));
+            ui->label_pq->show();
+            ui->label_pq->setText(QString::number(n));
+            ui->label_eq->show();
+            ui->label_p->show();
+            ui->label_p->setText(QString::number(input_p));
+            ui->label_q->show();
+            ui->label_q->setText(QString::number(input_q));
+            ui->label_times->show();
+            ui->label_RSA_phi_n->show();
+            ui->label_eq_2->show();
+            ui->label_times_2->show();
+            ui->label_eq_3->show();
+            ui->label_times_3->show();
+            ui->label_pmoins1->show();
+            ui->label_pmoins1->setText("(p-1)");
+            ui->label_qmoins1->show();
+            ui->label_qmoins1->setText("(q-1)");
+            ui->label_qmoins1_res->show();
+            ui->label_qmoins1_res->setText(QString::number(input_q-1));
+            ui->label_pmoins1_res->show();
+            ui->label_pmoins1_res->setText(QString::number(input_p-1));
+            ui->label_phi_n_res->show();
+            ui->label_phi_n_res->setText(QString::number(phi_n));
+            BigInt decoded = rsa_obj.cipher(input_c,n,d);
+            BigInt q = m/n;
+            std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
+            ui->textBrowser_RSA_e->setText(QString::number(d));
+            ui->textBrowser_RSA_c1->setText(QString::fromStdString(decoded_str));
+            rsa_obj.setDecoded(decoded_str);
+            rsa_obj.set_d(d);
+        }
     }
 }
 

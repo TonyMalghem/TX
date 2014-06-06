@@ -8,12 +8,12 @@ int rsa::calc_phi_n(const int p, const int q)
 
 int rsa::calc_e(const int phi_n)
 {
-    int i=2;
+    int i = rand() % (phi_n-1) + 1;
     while(i<phi_n)
     {
         if(phi_n%i!=0)
             return i;
-        i++;
+        i = rand() % (phi_n-1) + 1;
     }
     return 0;
 }
