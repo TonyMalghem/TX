@@ -24,7 +24,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void afficheRC4();
-    void afficheAES();
     void afficheRSA();
     void afficheDecipher();
     void afficheCipher();
@@ -51,7 +50,6 @@ private slots:
     void decipherClicked();
     void aboutClicked();
     void rc4Clicked();
-    void aesClicked();
     void rsaClicked();
     void cipherButtonClicked();
     void decipherButtonClicked();

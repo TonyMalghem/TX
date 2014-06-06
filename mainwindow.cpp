@@ -7,11 +7,7 @@
 /*****************************************************************/
 /*                               TODO                            */
 /*****************************************************************/
-/* - aes                                                         */
 /* - rsa : ui                                                    */
-/* - rc4 : demonstration construction keystream                  */
-/* => intégration shéma dans nouvelle fenêtre avec remplissage   */
-/* de labels                                                     */
 /* - DOXYGEN                                                     */
 /* - exceptions                                                  */
 /*****************************************************************/
@@ -21,8 +17,8 @@ rsa rsa_obj(0,"",0,0,0,0);
 
 int compt_disp=0;
 bool CipherMode=true;
-/*1=>rc4 2=>rsa 3=>aes*/
 int mode=1;
+/*1=>rc4 2=>rsa*/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(aboutClicked()));
     QObject::connect(ui->pushButton_cipher,SIGNAL(clicked()),this,SLOT(cipherButtonClicked()));
     QObject::connect(ui->pushButton_decipher,SIGNAL(clicked()),this,SLOT(decipherButtonClicked()));
-    QObject::connect(ui->actionAES,SIGNAL(triggered()),this,SLOT(aesClicked()));
     QObject::connect(ui->actionRSA,SIGNAL(triggered()),this,SLOT(rsaClicked()));
     QObject::connect(ui->actionRC4,SIGNAL(triggered()),this,SLOT(rc4Clicked()));
     QObject::connect(ui->pushButton_image,SIGNAL(clicked()),this,SLOT(imageButtonClicked()));
@@ -454,11 +449,6 @@ void MainWindow::hideRC4()
     ui->pushButton_image->hide();
 }
 
-void MainWindow::afficheAES()
-{
-    this->setWindowTitle("AES");
-}
-
 void MainWindow::afficheRSA()
 {
     clearTextEdit();
@@ -647,12 +637,6 @@ void MainWindow::rsaClicked()
     afficheRSA();
 }
 
-void MainWindow::aesClicked()
-{
-    mode=3;
-    afficheAES();
-}
-
 void MainWindow::cipherButtonClicked()
 {
     if(mode==1)/*if we're working in RC4*/
@@ -692,10 +676,6 @@ void MainWindow::cipherButtonClicked()
             int n = rsa_obj.calc_n(input_p,input_q);
             int phi_n = rsa_obj.calc_phi_n(input_p,input_q);
             int e = rsa_obj.calc_e(phi_n);
-            int d = rsa_obj.calc_d(phi_n,e);
-            rsa_obj.set_d(d);
-            rsa_obj.set_n(n);
-            rsa_obj.set_e(e);
             BigInt m = rsa_obj.M_to_m(input_message);
             ui->textBrowser_RSA_m->setText(QString::fromStdString(m.ToString()));
             ui->label_pq->show();
@@ -722,17 +702,14 @@ void MainWindow::cipherButtonClicked()
             ui->label_phi_n_res->show();
             ui->label_phi_n_res->setText(QString::number(phi_n));
             BigInt encoded = rsa_obj.cipher(m,n,e);
+            rsa_obj.setEncoded(encoded);
+            rsa_obj.set_m(m);
             /*BigInt decoded = rsa_obj.cipher(encoded,n,d);
             BigInt q = m/n;
             std::cout<<q*n<<std::endl<<std::endl;
             std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
             std::cout<<"m= "<<m<<std::endl<<"encoded= "<<encoded<<std::endl<<"decoded= "<<decoded<<std::endl<<"decoded_str= "<<decoded_str<<std::endl;*/
-            rsa_obj.setEncoded(encoded);
-            rsa_obj.set_m(m);
         }
-    }
-    else/*AES*/
-    {
     }
 }
 
@@ -753,10 +730,7 @@ void MainWindow::decipherButtonClicked()
 
         rc4_obj.decipher(input_str,key_str);
     }
-    else if(mode==2)
-    {
-    }
-    else
+    else if(mode==2)/*RSA*/
     {
     }
 }
@@ -772,6 +746,10 @@ QString MainWindow::textCleaner(const QString TextToClean)
 
     //remove spaces
     CleanedText.replace(" ","");
+    //remove tabs
+    CleanedText.replace('\t',"");
+    //remove returns
+    CleanedText.replace('\n',"");
 
     //to upper case
     CleanedText=CleanedText.toUpper();
