@@ -7,7 +7,7 @@
 /*****************************************************************/
 /*                               TODO                            */
 /*****************************************************************/
-/* - rsa : ui                                                    */
+/* - rsa : step by step                                          */
 /* - DOXYGEN                                                     */
 /* - exceptions                                                  */
 /*****************************************************************/
@@ -299,6 +299,9 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
                 compt_disp=(compt_disp+1)%6;
             }
         }
+        else if(mode==2)
+        {
+        }
     }
 }
 
@@ -507,6 +510,22 @@ void MainWindow::afficheCipher()
         ui->label_equal4->hide();
         ui->label_xor4->hide();
     }
+    else if(mode==2)
+    {
+        ui->label_RSA_c_in->hide();
+        ui->label_RSA_e_in->hide();
+        ui->textEdit_RSA_c_in->hide();
+        ui->textEdit_RSA_e_in->hide();
+        ui->pushButton_cipher->setEnabled(true);
+        ui->pushButton_decipher->setEnabled(false);
+        ui->label_calcC->setText("Calculation of the ciphered message:");
+        ui->label_calcE->setText("Calculation of the public key:");
+        ui->textBrowser_RSA_c1->clear();
+        ui->textBrowser_RSA_e->clear();
+        ui->textBrowser_RSA_m->hide();
+        ui->textEdit_RSA_M->show();
+        ui->label_RSA_M->show();
+    }
 }
 
 void MainWindow::afficheDecipher()
@@ -544,7 +563,9 @@ void MainWindow::afficheDecipher()
         ui->textBrowser_RSA_c1->clear();
         ui->textBrowser_RSA_e->clear();
         ui->textBrowser_RSA_m->hide();
+        ui->label_RSA_m->hide();
         ui->textEdit_RSA_M->hide();
+        ui->label_RSA_M->hide();
     }
 }
 
@@ -733,11 +754,6 @@ void MainWindow::cipherButtonClicked()
             ui->textBrowser_RSA_c1->setText(QString::fromStdString(encoded.ToString()));
             rsa_obj.setEncoded(encoded);
             rsa_obj.set_m(m);
-            /*BigInt decoded = rsa_obj.cipher(encoded,n,d);
-            BigInt q = m/n;
-            std::cout<<q*n<<std::endl<<std::endl;
-            std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
-            std::cout<<"m= "<<m<<std::endl<<"encoded= "<<encoded<<std::endl<<"decoded= "<<decoded<<std::endl<<"decoded_str= "<<decoded_str<<std::endl;*/
         }
     }
 }

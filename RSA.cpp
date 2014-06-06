@@ -30,7 +30,7 @@ int rsa::calc_d(const int phi_n, const int e)
     b2=1;
     b3=e;
 
-    while(b3!=1)
+    while(b3!=1 && b3!=0)
     {
         q=a3/b3;
 
