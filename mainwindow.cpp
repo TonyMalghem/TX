@@ -693,7 +693,7 @@ void MainWindow::cipherButtonClicked()
         QString input = ui->textEdit_inputText->toPlainText();
         QString key = ui->textEdit_key->toPlainText();
         QString input_qhex;
-
+        bool OK=true;
         input = textCleaner(input);
 
         std::string input_str = input.toStdString();
@@ -706,7 +706,18 @@ void MainWindow::cipherButtonClicked()
         else //ui->radioButton_hex->isChecked()
             input_qhex = input;
 
-        ui->textEdit_inputTextHex->setText(input_qhex);
+        for(int i=0;i<input_qhex.length();i++)
+        {
+            static const char* const lut = "0123456789ABCDEF";
+            std::string input_test = input_qhex.toStdString();
+            char a = input_test[i];
+            const char* p = std::lower_bound(lut, lut + 16, a);
+            if (*p != a)
+                OK=false;
+        }
+
+        if(input_hex!="" && OK)
+            ui->textEdit_inputTextHex->setText(input_qhex);
 
         if(ui->radioButton_hexa->isChecked())
             rc4_obj.cipher(input_str,key_str,true);
