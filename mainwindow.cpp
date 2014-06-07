@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "rc4.h"
 #include "RSA.h"
+#include "exceptions.h"
 
 
 /*****************************************************************/
@@ -9,7 +10,6 @@
 /*****************************************************************/
 /* - rsa : step by step                                          */
 /* - DOXYGEN                                                     */
-/* - exceptions                                                  */
 /*****************************************************************/
 
 rc4 rc4_obj("","","");
@@ -465,6 +465,10 @@ void MainWindow::afficheRSA()
     clearTextEdit();
     hideRC4();
     this->setWindowTitle("RSA");
+    if(CipherMode)
+        afficheCipher();
+    else
+        afficheDecipher();
     ui->label_index->hide();
     ui->textEdit_RSA_M->show();
     ui->textEdit_RSA_p->show();
@@ -474,8 +478,6 @@ void MainWindow::afficheRSA()
     ui->label_RSA_q->show();
     ui->pushButton_cipher->show();
     ui->pushButton_decipher->show();
-    ui->label_RSA_m->show();
-    ui->textBrowser_RSA_m->show();
     ui->label_RSA_n->show();
     ui->label_RSA_phi_n->show();
     ui->label_pq->hide();
@@ -522,9 +524,10 @@ void MainWindow::afficheCipher()
         ui->label_calcE->setText("Calculation of the public key:");
         ui->textBrowser_RSA_c1->clear();
         ui->textBrowser_RSA_e->clear();
-        ui->textBrowser_RSA_m->hide();
         ui->textEdit_RSA_M->show();
         ui->label_RSA_M->show();
+        ui->label_RSA_m->show();
+        ui->textBrowser_RSA_m->show();
     }
 }
 
@@ -566,6 +569,8 @@ void MainWindow::afficheDecipher()
         ui->label_RSA_m->hide();
         ui->textEdit_RSA_M->hide();
         ui->label_RSA_M->hide();
+        ui->label_RSA_M->hide();
+        ui->textBrowser_RSA_m->hide();
     }
 }
 
@@ -729,42 +734,54 @@ void MainWindow::cipherButtonClicked()
         int input_p = ui->textEdit_RSA_p->toPlainText().toInt();
         int input_q = ui->textEdit_RSA_q->toPlainText().toInt();
         std::string input_message = this->textCleaner(ui->textEdit_RSA_M->toPlainText()).toStdString();
-
-        if(rsa_obj.isPrime(input_p) && rsa_obj.isPrime(input_q))
+        try
         {
-            int n = rsa_obj.calc_n(input_p,input_q);
-            int phi_n = rsa_obj.calc_phi_n(input_p,input_q);
-            int e = rsa_obj.calc_e(phi_n);
-            BigInt m = rsa_obj.M_to_m(input_message);
-            ui->textBrowser_RSA_m->setText(QString::fromStdString(m.ToString()));
-            ui->label_pq->show();
-            ui->label_pq->setText(QString::number(n));
-            ui->label_eq->show();
-            ui->label_p->show();
-            ui->label_p->setText(QString::number(input_p));
-            ui->label_q->show();
-            ui->label_q->setText(QString::number(input_q));
-            ui->label_times->show();
-            ui->label_RSA_phi_n->show();
-            ui->label_eq_2->show();
-            ui->label_times_2->show();
-            ui->label_eq_3->show();
-            ui->label_times_3->show();
-            ui->label_pmoins1->show();
-            ui->label_pmoins1->setText("(p-1)");
-            ui->label_qmoins1->show();
-            ui->label_qmoins1->setText("(q-1)");
-            ui->label_qmoins1_res->show();
-            ui->label_qmoins1_res->setText(QString::number(input_q-1));
-            ui->label_pmoins1_res->show();
-            ui->label_pmoins1_res->setText(QString::number(input_p-1));
-            ui->label_phi_n_res->show();
-            ui->label_phi_n_res->setText(QString::number(phi_n));
-            BigInt encoded = rsa_obj.cipher(m,n,e);
-            ui->textBrowser_RSA_e->setText(QString::number(e));
-            ui->textBrowser_RSA_c1->setText(QString::fromStdString(encoded.ToString()));
-            rsa_obj.setEncoded(encoded);
-            rsa_obj.set_m(m);
+            if(ui->textEdit_RSA_p->toPlainText()=="" || ui->textEdit_RSA_q->toPlainText()=="")
+                throw CryptExceptions("p and q must not be null");
+            if(rsa_obj.isPrime(input_p) && rsa_obj.isPrime(input_q))
+            {
+                int n = rsa_obj.calc_n(input_p,input_q);
+                int phi_n = rsa_obj.calc_phi_n(input_p,input_q);
+                int e = rsa_obj.calc_e(phi_n);
+                BigInt m = rsa_obj.M_to_m(input_message);
+                ui->textBrowser_RSA_m->setText(QString::fromStdString(m.ToString()));
+                ui->label_pq->show();
+                ui->label_pq->setText(QString::number(n));
+                ui->label_eq->show();
+                ui->label_p->show();
+                ui->label_p->setText(QString::number(input_p));
+                ui->label_q->show();
+                ui->label_q->setText(QString::number(input_q));
+                ui->label_times->show();
+                ui->label_RSA_phi_n->show();
+                ui->label_eq_2->show();
+                ui->label_times_2->show();
+                ui->label_eq_3->show();
+                ui->label_times_3->show();
+                ui->label_pmoins1->show();
+                ui->label_pmoins1->setText("(p-1)");
+                ui->label_qmoins1->show();
+                ui->label_qmoins1->setText("(q-1)");
+                ui->label_qmoins1_res->show();
+                ui->label_qmoins1_res->setText(QString::number(input_q-1));
+                ui->label_pmoins1_res->show();
+                ui->label_pmoins1_res->setText(QString::number(input_p-1));
+                ui->label_phi_n_res->show();
+                ui->label_phi_n_res->setText(QString::number(phi_n));
+                BigInt encoded = rsa_obj.cipher(m,n,e);
+                ui->textBrowser_RSA_e->setText(QString::number(e));
+                ui->textBrowser_RSA_c1->setText(QString::fromStdString(encoded.ToString()));
+                rsa_obj.setEncoded(encoded);
+                rsa_obj.set_m(m);
+            }
+            else
+            {
+                throw CryptExceptions("p and q must be prime numbers");
+            }
+        }
+        catch(CryptExceptions e)
+        {
+            e.alert();
         }
     }
 }

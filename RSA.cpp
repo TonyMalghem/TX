@@ -58,7 +58,7 @@ bool rsa::isPrime(int in)
         return false;
     while(i<in/2)
     {
-        if(i%in==0)
+        if(in%i==0)
             return false;
         i++;
     }
