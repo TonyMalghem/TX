@@ -4,7 +4,6 @@
 #include <string>
 #include <exception>
 #include <QMessageBox>
-#include <QIcon>
 
 class CryptExceptions : public std::exception
 {
