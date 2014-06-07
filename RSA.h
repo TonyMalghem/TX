@@ -7,6 +7,11 @@
 #ifndef RSA_H
 #define RSA_H
 
+/*! \class rsa
+ *  \brief Class implementing the functions for the RSA cryptographic algorithm.
+ *  This class contains the definition of the different functions allowing the user to realize the
+ *  demonstration of the RSA encryption.*/
+
 class rsa {
 public:
     rsa(const int em, const std::string dm, const int im, const int ee, const int dd, const int nn) : encoded_message(em),decoded_message(dm),int_message(im),e(ee),d(dd),n(nn){}

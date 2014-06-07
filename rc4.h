@@ -4,6 +4,11 @@
 #ifndef RC4_H
 #define RC4_H
 
+/*! \class rc4
+ *  \brief Class implementing the functions for the RC4 cryptographic algorithm.
+ *  This class contains the definition of the different functions allowing the user to realize the
+ *  demonstration of the RC4 cipher.*/
+
 class rc4 {
 public:
     rc4(const std::string e, const std::string d, const std::string k) : encoded_message(e),decoded_message(d),keystream(k){}

@@ -16,6 +16,11 @@ namespace Ui {
 class MainWindow;
 }
 
+/*! \class MainWindow
+ *  \brief The main window of the application.
+ *  This class defines the main interface of the application and the different functions to be
+ *  called when an action is realized by the user.*/
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
