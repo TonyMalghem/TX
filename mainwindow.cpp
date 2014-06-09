@@ -869,6 +869,14 @@ QString MainWindow::textCleaner(const QString TextToClean)
     //remove returns
     CleanedText.replace('\n',"");
 
+    //remove simple and double quotes
+    CleanedText.replace('\"',"");
+    CleanedText.replace('\'',"");
+
+    //remove brackets
+    CleanedText.replace('(',"");
+    CleanedText.replace(')',"");
+
     //to upper case
     CleanedText=CleanedText.toUpper();
 
