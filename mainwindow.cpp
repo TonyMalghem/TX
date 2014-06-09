@@ -982,7 +982,7 @@ void MainWindow::imageButtonClicked()
     ui->textBrowser_img99->setStyleSheet("background-color: #6699FF");
     ui->textBrowser_img99->setGeometry(QRect(950, 500, 70, 30));
 
-    QPixmap *p=new QPixmap("/home/Tony/rc4_keystream.jpg");
+    QPixmap *p=new QPixmap("./rc4_keystream.jpg");
     QPixmap p1(p->scaled ( ui->label_image->width(),ui->label_image->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation ));
     ui->label_image->setPixmap(p1);
     ui->label_image->show();
