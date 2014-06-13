@@ -4,21 +4,15 @@
 #include "RSA.h"
 #include "exceptions.h"
 
-
-/*****************************************************************/
-/*                               TODO                            */
-/*****************************************************************/
-/* - rsa : step by step                                          */
-/* - DOXYGEN                                                     */
-/*****************************************************************/
-
 rc4 rc4_obj("","","");
 rsa rsa_obj(0,"",0,0,0,0);
 
+/*click counter for the mouse event handler*/
 int compt_disp=0;
+/*boolean to know whether we are ciphering or deciphering*/
 bool CipherMode=true;
+/*Mode of the application. If mode=1, it means we're using the RC4 algorithm. If mode=2, we're using RSA*/
 int mode=1;
-/*1=>rc4 2=>rsa*/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -403,6 +397,11 @@ void MainWindow::hideRSA()
     ui->label_RSA_e_in->hide();
     ui->textEdit_RSA_c_in->hide();
     ui->textEdit_RSA_e_in->hide();
+    ui->label_c_explain->hide();
+    ui->label_e_explain->hide();
+    ui->label_d_explain->hide();
+    ui->label_d_explain_2->hide();
+    ui->label_m_explain->hide();
 }
 
 void MainWindow::hideRC4()
@@ -528,6 +527,11 @@ void MainWindow::afficheCipher()
         ui->label_RSA_M->show();
         ui->label_RSA_m->show();
         ui->textBrowser_RSA_m->show();
+        ui->label_c_explain->hide();
+        ui->label_e_explain->hide();
+        ui->label_d_explain->hide();
+        ui->label_d_explain_2->hide();
+        ui->label_m_explain->hide();
     }
 }
 
@@ -571,6 +575,11 @@ void MainWindow::afficheDecipher()
         ui->label_RSA_M->hide();
         ui->label_RSA_M->hide();
         ui->textBrowser_RSA_m->hide();
+        ui->label_c_explain->hide();
+        ui->label_e_explain->hide();
+        ui->label_d_explain->hide();
+        ui->label_d_explain_2->hide();
+        ui->label_m_explain->hide();
     }
 }
 
@@ -768,6 +777,11 @@ void MainWindow::cipherButtonClicked()
                 ui->label_pmoins1_res->setText(QString::number(input_p-1));
                 ui->label_phi_n_res->show();
                 ui->label_phi_n_res->setText(QString::number(phi_n));
+                ui->label_c_explain->show();
+                ui->label_e_explain->show();
+                ui->label_d_explain->hide();
+                ui->label_d_explain_2->hide();
+                ui->label_m_explain->hide();
                 BigInt encoded = rsa_obj.cipher(m,n,e);
                 ui->textBrowser_RSA_e->setText(QString::number(e));
                 ui->textBrowser_RSA_c1->setText(QString::fromStdString(encoded.ToString()));
@@ -842,6 +856,11 @@ void MainWindow::decipherButtonClicked()
             ui->label_pmoins1_res->setText(QString::number(input_p-1));
             ui->label_phi_n_res->show();
             ui->label_phi_n_res->setText(QString::number(phi_n));
+            ui->label_c_explain->hide();
+            ui->label_e_explain->hide();
+            ui->label_d_explain->show();
+            ui->label_d_explain_2->show();
+            ui->label_m_explain->show();
             BigInt decoded = rsa_obj.cipher(input_c,n,d);
             BigInt q = m/n;
             std::string decoded_str = rsa_obj.m_to_M(decoded+q*n);
