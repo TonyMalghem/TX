@@ -1164,6 +1164,71 @@ p, li { white-space: pre-wrap; }
      <string>Enter the ciphered message:</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_e_explain">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>561</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>e is randomly generated between 1 and phi(n). It also has to be coprime with phi(n).</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_c_explain">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>370</y>
+      <width>441</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>c is obtained by calculating pow(m,e), and take its value modulo n.</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_d_explain">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>561</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>d is the multiplicative inverse of e modulo phi(n), then we calculate d so that</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_d_explain_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>390</y>
+      <width>561</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>d * e = 1 modulo phi(n)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_m_explain">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>370</y>
+      <width>511</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>The deciphered message m is obtained by calculating pow(c,d) modulo n</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
