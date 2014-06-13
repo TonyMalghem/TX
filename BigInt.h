@@ -107,6 +107,13 @@
  * ****************************************************************************
 */
 
+/*! \class BigInt
+ *  \brief Bigger int construction
+ *
+ *  A class allowing to create and manage bigger int than what is allowed by the language
+ *  Source: http://rsa.googlecode.com/svn/rsa/trunk/source/BigInt.h and http://rsa.googlecode.com/svn/rsa/trunk/source/BigInt.cpp
+ */
+
 #ifndef BIGINT_H_
 #define BIGINT_H_
 
@@ -184,6 +191,7 @@ class BigInt
         /* Expands the digits* to n. */
         void expandTo(unsigned long int n);
     public:
+        /*Constructors, destructors and opeators overload*/
         BigInt();
         BigInt(const char *charNum);
         BigInt(unsigned long int intNum);
